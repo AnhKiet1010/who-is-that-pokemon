@@ -1,53 +1,42 @@
 import Header from '@/components/Header'
-import type { NextPage } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import Link from 'next/link'
-import { useEffect } from 'react'
-import { useSetRecoilState } from 'recoil'
-import { pokemonListState, pokemonState } from 'store/pokemonListStore'
-import useSWR, { Key, Fetcher } from 'swr'
+import { getPokemonList } from 'api/pokemon'
+import { POKEMON_LIST_URL, POKEMON_LIST_URL_TYPE } from 'config/API'
+// import { usePokemonList } from 'hooks/usePokemonList'
+import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
+import { SWRConfig } from 'swr'
+import { PokemonInfo } from 'types/Pokemon'
 
-type PokeResponse = {
-  count: number
-  next: string | null
-  previous: string | null
-  results: Array<{
-    name: string
-    url: string
-  }>
+type Props<K extends POKEMON_LIST_URL_TYPE> = {
+  fallback: {
+    [k in K]: PokemonInfo[]
+  }
 }
 
-const uid: Key = 'pokemonList'
-const fetcher: Fetcher<PokeResponse, Key> = () =>
-  fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=5000').then((res) => res.json())
+type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
-const Home: NextPage = () => {
-  const setPokemonList = useSetRecoilState(pokemonListState)
-  const setPokemon = useSetRecoilState(pokemonState)
-
-  const { data } = useSWR(uid, fetcher)
-
-  useEffect(() => {
-    const pokemonList = data?.results
-    setPokemonList(pokemonList)
-    const randomPokemon = pokemonList ? pokemonList[Math.floor(Math.random() * pokemonList.length)] : undefined
-    setPokemon(randomPokemon)
-  }, [data, setPokemon, setPokemonList])
+const Home: NextPage<PageProps> = ({ fallback }) => {
+  // const { data } = usePokemonList()
 
   return (
-    <>
+    <SWRConfig value={{ fallback }}>
       <Header />
-      <Link href="/pokemon">
+      {/* <Link href="/pokemon">
         <a>show pokemon!</a>
-      </Link>
-    </>
+      </Link> */}
+    </SWRConfig>
   )
 }
 
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-})
+const getStaticProps: GetStaticProps<Props<POKEMON_LIST_URL_TYPE>> = async () => {
+  const pokemonList = await getPokemonList()
+
+  return {
+    props: {
+      fallback: {
+        [POKEMON_LIST_URL]: pokemonList,
+      },
+    },
+  }
+}
 
 export default Home
