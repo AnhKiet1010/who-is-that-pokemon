@@ -14,23 +14,31 @@ type Props<K extends POKEMON_LIST_URL_TYPE> = {
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
-const Home: NextPage<PageProps> = ({ fallback }) => {
+const Test = () => {
   const { data } = usePokemonList()
-  console.log(data)
+  return (
+    <>
+      <ul>
+        {data?.map((p) => (
+          <li key={p.name}>{p.name}</li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
+const Home: NextPage<PageProps> = ({ fallback }) => {
   return (
     <SWRConfig value={{ fallback }}>
       <Header />
-      {/* <Link href="/pokemon">
-        <a>show pokemon!</a>
-      </Link> */}
+      <Test />
     </SWRConfig>
   )
 }
 
-const getStaticProps: GetStaticProps<Props<POKEMON_LIST_URL_TYPE>> = async () => {
+export const getStaticProps: GetStaticProps<Props<POKEMON_LIST_URL_TYPE>> = async () => {
   const pokemonList = await getPokemonList()
 
-  console.log(pokemonList)
   return {
     props: {
       fallback: {
