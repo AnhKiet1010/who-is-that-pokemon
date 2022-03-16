@@ -5,5 +5,5 @@ import { getPokemonList } from 'api/pokemon'
 export const usePokemonList = () => {
   const fetcher = () => getPokemonList()
 
-  return useSWRImmutable(typeof POKEMON_LIST_URL, fetcher)
+  return useSWRImmutable(POKEMON_LIST_URL, fetcher)
 }
