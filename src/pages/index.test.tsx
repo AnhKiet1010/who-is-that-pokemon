@@ -1,5 +1,6 @@
+import { POKEMON_LIST_URL } from '@/config/API'
 import { render, screen } from '@testing-library/react'
-import { POKEMON_LIST_URL } from 'config/API'
+
 import Home from './index.page'
 
 describe('トップページのテスト', () => {
@@ -9,18 +10,14 @@ describe('トップページのテスト', () => {
         fallback={{
           [POKEMON_LIST_URL]: [
             {
-              name: '',
-              url: '',
+              name: 'フシギダネ',
+              url: 'https://google.com',
             },
           ],
         }}
       />
     )
 
-    const heading = screen.getByRole('heading', {
-      name: /Hello world!/i,
-    })
-
-    expect(heading).toBeInTheDocument()
+    expect(screen.getAllByRole('listitem')[0]).toBeTruthy()
   })
 })

@@ -1,10 +1,10 @@
+import { getPokemonList } from '@/api/pokemon'
 import Header from '@/components/Header'
-import { getPokemonList } from 'api/pokemon'
-import { POKEMON_LIST_URL, POKEMON_LIST_URL_TYPE } from 'config/API'
-import { usePokemonList } from 'hooks/usePokemonList'
+import { POKEMON_LIST_URL, POKEMON_LIST_URL_TYPE } from '@/config/API'
+import { usePokemonList } from '@/hooks/usePokemonList'
+import { PokemonInfo } from '@/types/Pokemon'
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import { SWRConfig } from 'swr'
-import { PokemonInfo } from 'types/Pokemon'
 
 type Props<K extends POKEMON_LIST_URL_TYPE> = {
   fallback: {
