@@ -20,6 +20,7 @@ const customJestConfig = {
     '^@/api/(.*)$': '<rootDir>/src/api/$1',
     '^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
     '^@/types/(.*)$': '<rootDir>/src/types/$1',
+    '^@/store/(.*)$': '<rootDir>/src/store/$1',
   },
 }
 
