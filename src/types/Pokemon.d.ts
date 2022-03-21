@@ -1,193 +1,31 @@
-export type PokemonList = {
-  count: number
-  next: string | null
-  previous: string | null
-  results: PokemonInfo[]
+type PokemonName = {
+  name: string
 }
 
-export type PokemonInfo = {
-  name: string
-  url: string
+type PokemonSpecyFlavorText = {
+  flavor_text: string
 }
 
-export type PokemonData = {
-  height: number
-  id: number
-  name: string
-  sprites: {
-    back_default: string | null
-    back_female: string | null
-    back_shiny: string | null
-    back_shiny_female: string | null
-    front_default: string | null
-    front_female: string | null
-    front_shiny: string | null
-    front_shiny_female: string | null
-    other: {
-      dream_world: {
-        front_default: string | null
-        front_female: string | null
-      }
-      home: {
-        front_default: string | null
-        front_female: string | null
-        front_shiny: string | null
-        front_shiny_female: string | null
-      }
-      'official-artwork': {
-        front_default: string | null
-      }
-    }
-    versions: {
-      'generation-i': {
-        'red-blue': {
-          back_default: string | null
-          back_gray: string | null
-          back_transparent: string | null
-          front_default: string | null
-          front_gray: string | null
-          front_transparent: string | null
-        }
-        yellow: {
-          back_default: string | null
-          back_gray: string | null
-          back_transparent: string | null
-          front_default: string | null
-          front_gray: string | null
-          front_transparent: string | null
-        }
-      }
-      'generation-ii': {
-        crystal: {
-          back_default: string | null
-          back_shiny: string | null
-          back_shiny_transparent: string | null
-          back_transparent: string | null
-          front_default: string | null
-          front_shiny: string | null
-          front_shiny_transparent: string | null
-          front_transparent: string | null
-        }
-        gold: {
-          back_default: string | null
-          back_shiny: string | null
-          front_default: string | null
-          front_shiny: string | null
-          front_transparent: string | null
-        }
-        silver: {
-          back_default: string | null
-          back_shiny: string | null
-          front_default: string | null
-          front_shiny: string | null
-          front_transparent: string | null
-        }
-      }
-      'generation-iii': {
-        emerald: {
-          front_default: string | null
-          front_shiny: string | null
-        }
-        'firered-leafgreen': {
-          back_default: string | null
-          back_shiny: string | null
-          front_default: string | null
-          front_shiny: string | null
-        }
-        'ruby-sapphire': {
-          back_default: string | null
-          back_shiny: string | null
-          front_default: string | null
-          front_shiny: string | null
-        }
-      }
-      'generation-iv': {
-        'diamond-pearl': {
-          back_default: string | null
-          back_female: string | null
-          back_shiny: string | null
-          back_shiny_female: string | null
-          front_default: string | null
-          front_female: string | null
-          front_shiny: string | null
-          front_shiny_female: string | null
-        }
-        'heartgold-soulsilver': {
-          back_default: string | null
-          back_female: string | null
-          back_shiny: string | null
-          back_shiny_female: string | null
-          front_default: string | null
-          front_female: string | null
-          front_shiny: string | null
-          front_shiny_female: string | null
-        }
-        platinum: {
-          back_default: string | null
-          back_female: string | null
-          back_shiny: string | null
-          back_shiny_female: string | null
-          front_default: string | null
-          front_female: string | null
-          front_shiny: string | null
-          front_shiny_female: string | null
-        }
-      }
-      'generation-v': {
-        'black-white': {
-          animated: {
-            back_default: string | null
-            back_female: string | null
-            back_shiny: string | null
-            back_shiny_female: string | null
-            front_default: string | null
-            front_female: string | null
-            front_shiny: string | null
-            front_shiny_female: string | null
-          }
-          back_default: string | null
-          back_female: string | null
-          back_shiny: string | null
-          back_shiny_female: string | null
-          front_default: string | null
-          front_female: string | null
-          front_shiny: string | null
-          front_shiny_female: string | null
-        }
-      }
-      'generation-vi': {
-        'omegaruby-alphasapphire': {
-          front_default: string | null
-          front_female: string | null
-          front_shiny: string | null
-          front_shiny_female: string | null
-        }
-        'x-y': {
-          front_default: string | null
-          front_female: string | null
-          front_shiny: string | null
-          front_shiny_female: string | null
-        }
-      }
-      'generation-vii': {
-        icons: {
-          front_default: string | null
-          front_female: string | null
-        }
-        'ultra-sun-ultra-moon': {
-          front_default: string | null
-          front_female: string | null
-          front_shiny: string | null
-          front_shiny_female: string | null
-        }
-      }
-      'generation-viii': {
-        icons: {
-          front_default: string | null
-          front_female: string | null
-        }
-      }
-    }
+type PoekmonSpecy = {
+  pokemon_v2_pokemonspeciesnames: Array<PokemonName>
+  pokemon_v2_pokemonspeciesflavortexts: Array<PokemonSpecyFlavorText>
+}
+
+type PokemonType = {
+  pokemon_v2_type: {
+    pokemon_v2_typenames: Array<PokemonName>
   }
+}
+
+type Pokemon = {
+  name: string
+  id: number
+  height: number
   weight: number
+  pokemon_v2_pokemonspecy: PoekmonSpecy
+  pokemon_v2_pokemontypes: Array<PokemonType>
+}
+
+type PokemonList = {
+  pokemon_v2_pokemon: Array<Pokemon>
 }

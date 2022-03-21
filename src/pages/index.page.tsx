@@ -1,19 +1,18 @@
 import { getPokemonList } from '@/api/pokemon'
 import Header from '@/components/Header'
-import { POKEMON_LIST_URL, POKEMON_LIST_URL_TYPE } from '@/config/API'
+import { POKEMON_URL } from '@/config/API'
 import { useLevel } from '@/hooks/useLevel'
 import { useOptions } from '@/hooks/useOptions'
 import { usePokemonList } from '@/hooks/usePokemonList'
 import { levelKeyList } from '@/store/levelStore'
 import { optionKeyList } from '@/store/optionsStore'
-import { PokemonInfo } from '@/types/Pokemon'
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import { FC } from 'react'
 import { SWRConfig } from 'swr'
 
-type Props<K extends POKEMON_LIST_URL_TYPE> = {
+type Props<K extends typeof POKEMON_URL> = {
   fallback: {
-    [k in K]: PokemonInfo[]
+    [k in K]: Array<Pokemon>
   }
 }
 
@@ -21,11 +20,14 @@ type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
 const Test = () => {
   const { data } = usePokemonList()
+
   return (
     <>
       <ul>
         {data?.map((p) => (
-          <li key={p.name}>{p.name}</li>
+          <>
+            <li key={p.name}>{p.name}</li>
+          </>
         ))}
       </ul>
     </>
@@ -82,13 +84,13 @@ const Home: NextPage<PageProps> = ({ fallback }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps<Props<POKEMON_LIST_URL_TYPE>> = async () => {
+export const getStaticProps: GetStaticProps<Props<typeof POKEMON_URL>> = async () => {
   const pokemonList = await getPokemonList()
 
   return {
     props: {
       fallback: {
-        [POKEMON_LIST_URL]: pokemonList,
+        [POKEMON_URL]: pokemonList,
       },
     },
   }
