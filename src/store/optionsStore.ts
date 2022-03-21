@@ -6,7 +6,7 @@ export type OptionKey = typeof optionKeyList[number]
 
 type Options = { [K in OptionKey]: boolean }
 
-const initialValue: Options = {
+const optionInitialValue: Options = {
   image: true,
   size: false,
   flavorText: false,
@@ -17,5 +17,5 @@ const initialValue: Options = {
 
 export const optionListStore = atom<Options>({
   key: 'optionListStore',
-  default: initialValue,
+  default: optionInitialValue,
 })
