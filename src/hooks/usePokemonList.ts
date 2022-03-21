@@ -7,3 +7,10 @@ export const usePokemonList = () => {
 
   return useSWRImmutable(POKEMON_URL, fetcher)
 }
+
+export const usePokemon = () => {
+  const { data } = usePokemonList()
+  const randomPokemon = data ? data[Math.floor(Math.random() * data.length)] : undefined
+
+  return randomPokemon
+}

@@ -3,7 +3,7 @@ import Header from '@/components/Header'
 import { POKEMON_URL } from '@/config/API'
 import { useLevel } from '@/hooks/useLevel'
 import { useOptions } from '@/hooks/useOptions'
-import { usePokemonList } from '@/hooks/usePokemonList'
+import { usePokemon } from '@/hooks/usePokemonList'
 import { levelKeyList } from '@/store/levelStore'
 import { optionKeyList } from '@/store/optionsStore'
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
@@ -19,18 +19,12 @@ type Props<K extends typeof POKEMON_URL> = {
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
 const Test = () => {
-  const { data } = usePokemonList()
+  const randomPokemon = usePokemon()
 
-  return (
-    <>
-      <ul>
-        {data?.map((p) => (
-          <>
-            <li key={p.name}>{p.name}</li>
-          </>
-        ))}
-      </ul>
-    </>
+  return randomPokemon ? (
+    <>{randomPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesnames[0].name}</>
+  ) : (
+    <div></div>
   )
 }
 
