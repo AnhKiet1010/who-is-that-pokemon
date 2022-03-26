@@ -1,4 +1,6 @@
 const { i18n } = require('./next-i18next.config')
+// const withTM = require('next-transpile-modules')(['konva'])
+// module.exports = withTM()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

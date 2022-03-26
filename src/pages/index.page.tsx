@@ -1,6 +1,7 @@
 import { getPokemonList } from '@/api/pokemon'
 import Header from '@/components/Header'
-import { POKEMON_URL } from '@/config/API'
+import Image from 'next/image'
+import { POKEMON_BACK_IMG_URL, POKEMON_FRONT_IMG_URL, POKEMON_OFFICIAL_IMG_URL, POKEMON_URL } from '@/config/API'
 import { useLevel } from '@/hooks/useLevel'
 import { useOptions } from '@/hooks/useOptions'
 import { usePokemon } from '@/hooks/usePokemonList'
@@ -9,6 +10,9 @@ import { optionKeyList } from '@/store/optionsStore'
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import { FC } from 'react'
 import { SWRConfig } from 'swr'
+import dynamic from 'next/dynamic'
+
+const Quiz = dynamic(() => import('@/components/Quiz'), { ssr: false })
 
 type Props<K extends typeof POKEMON_URL> = {
   fallback: {
@@ -22,7 +26,12 @@ const Test = () => {
   const randomPokemon = usePokemon()
 
   return randomPokemon ? (
-    <>{randomPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesnames[0].name}</>
+    <>
+      <div>{randomPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesnames[0].name}</div>
+      <Image alt="Vercel logo" src={`${POKEMON_BACK_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
+      <Image alt="Vercel logo" src={`${POKEMON_FRONT_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
+      <Image alt="Vercel logo" src={`${POKEMON_OFFICIAL_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
+    </>
   ) : (
     <div></div>
   )
@@ -74,6 +83,7 @@ const Home: NextPage<PageProps> = ({ fallback }) => {
         <Test3 checked={level === v} level={v} key={v} />
       ))}
       <Test />
+      <Quiz />
     </SWRConfig>
   )
 }
