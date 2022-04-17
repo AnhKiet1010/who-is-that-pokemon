@@ -1,10 +1,10 @@
 import { getPokemonList } from '@/api/pokemon'
 import Header from '@/components/Header'
-import Image from 'next/image'
-import { POKEMON_BACK_IMG_URL, POKEMON_FRONT_IMG_URL, POKEMON_OFFICIAL_IMG_URL, POKEMON_URL } from '@/config/API'
+// import Image from 'next/image'
+import { POKEMON_URL } from '@/config/API'
 import { useLevel } from '@/hooks/useLevel'
 import { useOptions } from '@/hooks/useOptions'
-import { usePokemon } from '@/hooks/usePokemonList'
+// import { usePokemon } from '@/hooks/usePokemonList'
 import { levelKeyList } from '@/store/levelStore'
 import { optionKeyList } from '@/store/optionsStore'
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
@@ -22,33 +22,33 @@ type Props<K extends typeof POKEMON_URL> = {
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
-const Test = () => {
-  const randomPokemon = usePokemon()
+// const Test = () => {
+//   const randomPokemon = usePokemon()
 
-  return randomPokemon ? (
-    <>
-      <div>{randomPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesnames[0].name}</div>
-      <Image alt="Vercel logo" src={`${POKEMON_BACK_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
-      <Image alt="Vercel logo" src={`${POKEMON_FRONT_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
-      <Image alt="Vercel logo" src={`${POKEMON_OFFICIAL_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
-    </>
-  ) : (
-    <div></div>
-  )
-}
+//   return randomPokemon ? (
+//     <>
+//       <div>{randomPokemon.pokemon_v2_pokemonspecy.pokemon_v2_pokemonspeciesnames[0].name}</div>
+//       <Image alt="Vercel logo" src={`${POKEMON_BACK_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
+//       <Image alt="Vercel logo" src={`${POKEMON_FRONT_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
+//       <Image alt="Vercel logo" src={`${POKEMON_OFFICIAL_IMG_URL}${randomPokemon.id}.png`} layout="fill" />
+//     </>
+//   ) : (
+//     <div></div>
+//   )
+// }
 
 type TestProp2 = {
-  checked: boolean
-  type: string
+  option: string
 }
 
-const Test2: FC<TestProp2> = ({ checked, type }) => {
-  const { setOption } = useOptions()
+const Test2: FC<TestProp2> = ({ option }) => {
+  const { options, setOption } = useOptions()
+  const checked = options[option]
 
   return (
     <div>
-      {checked && <div>{`${type} active`}</div>}
-      <input type="checkbox" checked={checked} onChange={() => setOption(type)} />
+      {checked && <div>{`${option} active`}</div>}
+      <input type="checkbox" checked={checked} onChange={() => setOption(option)} />
     </div>
   )
 }
@@ -70,19 +70,18 @@ const Test3: FC<TestProp3> = ({ checked, level }) => {
 }
 
 const Home: NextPage<PageProps> = ({ fallback }) => {
-  const { options } = useOptions()
   const { level } = useLevel()
 
   return (
     <SWRConfig value={{ fallback }}>
       <Header />
       {optionKeyList.map((option) => (
-        <Test2 checked={options[option]} type={option} key={option} />
+        <Test2 option={option} key={option} />
       ))}
       {levelKeyList.map((v) => (
         <Test3 checked={level === v} level={v} key={v} />
       ))}
-      <Test />
+      {/* <Test /> */}
       <Quiz />
     </SWRConfig>
   )
